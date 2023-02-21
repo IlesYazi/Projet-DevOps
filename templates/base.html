@@ -96,7 +96,7 @@
                     </a>
 
                     {% if request.session.customer %}
-                    <a class="nav-link" href="/orders">Orderes<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/orders">Orders<span class="sr-only">(current)</span></a>
                     <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
                     <a><span class="sr-only">{{ request.session.customer.first_name }}</span></a>
                     {% else %}
