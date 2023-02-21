@@ -90,6 +90,11 @@
                         </form>
                     </div>
 
+                    <a class="nav-link" href="/cart">Cart
+                        <span class="badge badge-success">{{request.session.cart.keys|length}}</span>
+                        <span class="sr-only">(current)</span>
+                    </a>
+
                     {% if request.session.customer %}
                     <a class="nav-link" href="/orders">Orders<span class="sr-only">(current)</span></a>
                     <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
