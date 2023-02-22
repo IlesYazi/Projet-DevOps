@@ -8,7 +8,7 @@ The project comes preconfigured for those packages:
      django = "*"
      pillow = "*"
     
-   [dev-packages]
+   [Tools/Software]
      -- Jenkins
      -- Nexus artefact repository
      -- Github
