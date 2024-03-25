@@ -11,9 +11,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-"""
- Class define customer who buy
-"""
 class Client(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField (max_length=50)
@@ -27,14 +24,12 @@ class Client(models.Model):
     @staticmethod
     def get_customer_by_email(email):
         try:
-            return Client.objects.get(email= email)
+            return Client.objects.get(email=email)
         except:
             return False
 
     def isExists(self):
-        if Client.objects.filter(email = self.email):
-            return True
-        return False
+        return Client.objects.filter(email = self.email).exists()
 
 class Products(models.Model):
     name = models.CharField(max_length=60)
@@ -55,8 +50,7 @@ class Products(models.Model):
     def get_all_products_by_categoryid(category_id):
         if category_id:
             return Products.objects.filter (category=category_id)
-        else:
-            return Products.get_all_products()
+        return Products.get_all_products()
 
 
 class Order(models.Model):
