@@ -22,7 +22,6 @@ class Index(View):
                         cart[product] = quantity-1
                 else:
                     cart[product] = quantity+1
-
             else:
                 cart[product] = 1
         else:
@@ -30,7 +29,6 @@ class Index(View):
             cart[product] = 1
 
         request.session['cart'] = cart
-        print('cart', request.session['cart'])
         return redirect('homepage')
 
     def get(self, request):
@@ -52,8 +50,6 @@ def store(request):
     data = {}
     data['products'] = products
     data['categories'] = categories
-
-    print('you are : ', request.session.get('email'))
     return render(request, 'index.html', data)
 
 
@@ -61,12 +57,10 @@ class Cart(View):
     def get(self, request):
         ids = list(request.session.get('cart').keys())
         products = Products.get_products_by_id(ids)
-        print(products)
         return render(request, 'cart.html', {'products': products})
 
 
 class Signup (View):
-
     def get(self, request):
         return render(request, 'signup.html')
 
@@ -84,11 +78,13 @@ class Signup (View):
             'email': email
         }
         error_message = None
-        customer = Client(first_name=first_name,
-                          last_name=last_name,
-                          phone=phone,
-                          email=email,
-                          password=password)
+        customer = Client(
+            first_name=first_name,
+            last_name=last_name,
+            phone=phone,
+            email=email,
+            password=password
+        )
         error_message = self.validateCustomer(customer)
 
         if not error_message:
@@ -128,7 +124,7 @@ class Signup (View):
 
 class Login(View):
     return_url = None
-
+    
     def get(self, request):
         Login.return_url = request.GET.get('return_url')
         return render(request, 'login.html')
@@ -151,14 +147,11 @@ class Login(View):
                 error_message = 'Invalid !!'
         else:
             error_message = 'Invalid !!'
-
         return render(request, 'login.html', {'error': error_message})
-
 
 def logout(request):
     request.session.clear()
     return redirect('login')
-
 
 class CheckOut(View):
     def post(self, request):
@@ -169,12 +162,14 @@ class CheckOut(View):
         products = Products.get_products_by_id(list(cart.keys()))
   
         for product in products:
-            order = Order(client=Client(id=customer),
-                          product=product,
-                          price=product.price,
-                          address=address,
-                          phone=phone,
-                          quantity=cart.get(str(product.id)))
+            order = Order(
+                client=Client(id=customer),
+                product=product,
+                price=product.price,
+                address=address,
+                phone=phone,
+                quantity=cart.get(str(product.id))
+            )
             order.save()
         request.session['cart'] = {}
         return redirect('cart')
@@ -183,5 +178,4 @@ class OrderView(View):
     def get(self , request ):
         customer = request.session.get('customer')
         orders = Order.get_orders_by_customer(customer)
-        print(orders)
         return render(request , 'orders.html'  , {'orders' : orders})
